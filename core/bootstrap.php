@@ -1,13 +1,22 @@
 <?php
-use core\Database\Connection;
-use core\Database\QueryBuilder;
 
-$app = [];
+use App\Core\App;
+use Core\Database\Connection;
+use Core\Database\QueryBuilder;
 
-require 'core/Database/Connection.php';
-require 'core/Database/QueryBuilder.php';
-require 'core/Router.php';
-require 'core/Request.php';
-$app['config'] = require 'config.php';
+App::bind('config', require 'config.php');
+App::bind('database', new QueryBuilder(
+    Connection::make(App::get('config')['database'])
+));
 
-$app['database'] = new QueryBuilder(Connection::make($app['config']['database']));
+function view($name, array $data = [])
+{
+    extract($data);
+
+    return require "app/views/{$name}.view.php";
+}
+
+function redirect($location)
+{
+    header("Location: /{$location}");
+}
