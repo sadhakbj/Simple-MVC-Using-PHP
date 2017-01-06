@@ -3,5 +3,9 @@
     "classmap": [
       "./"
     ]
+  },
+  "require": {
+    "illuminate/database": "^5.3",
+    "vlucas/phpdotenv": "^2.4"
   }
 }
